@@ -1,5 +1,7 @@
 # Securepoint UTM Beszel Agent Ansible Role
 
+[![Ansible Galaxy](https://img.shields.io/badge/ansible--galaxy-sp__utm__beszel-blue.svg)](https://galaxy.ansible.com/ui/standalone/roles/Primexz/sp_utm_beszel/)
+
 An Ansible role that installs and configures the [Beszel](https://github.com/henrygd/beszel) monitoring agent on a Securepoint UTM.
 
 ## Requirements
