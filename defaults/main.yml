@@ -1,0 +1,11 @@
+---
+beszel_version: "v0.16.0"
+beszel_port: 0
+beszel_key: ""  # SSH public key for authentication
+beszel_extra_filesystems: ""  # Optional extra filesystems to monitor (e.g., "sdb")
+beszel_root_filesystem: ""
+beszel_home_dir: "/root/beszel-agent"
+
+# Download URLs
+beszel_download_url: "https://github.com/henrygd/beszel/releases/download"
+beszel_binary_name: "beszel-agent_linux_amd64.tar.gz"

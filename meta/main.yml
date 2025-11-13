@@ -1,0 +1,16 @@
+---
+galaxy_info:
+  author: Primexz
+  description: Role to install and configure Beszel monitoring agent on Securepoint UTM.
+  role_name: sp_utm_beszel
+  license: MIT
+  min_ansible_version: "2.9"
+  galaxy_tags:
+    - monitoring
+    - system
+    - observability
+    - metrics
+    - utm
+    - securepoint
+
+dependencies: []

@@ -1,0 +1,71 @@
+---
+- name: Validate beszel key is set
+  ansible.builtin.fail:
+    msg: "beszel_key must be set for the agent to authenticate with the server"
+  when: beszel_key == "" or beszel_key is not defined
+
+- name: Validate beszel port is set
+  ansible.builtin.fail:
+    msg: "beszel_port must be set for the agent to listen on"
+  when: beszel_port == 0 or beszel_port is not defined
+
+- name: Create beszel directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+  loop:
+    - "{{ beszel_home_dir }}"
+  when: not ansible_check_mode
+
+- name: Check if beszel binary exists
+  ansible.builtin.stat:
+    path: "{{ beszel_home_dir }}/beszel-agent"
+  register: beszel_binary
+  when: not ansible_check_mode
+
+- name: Download beszel agent tarball
+  ansible.builtin.get_url:
+    url: "{{ beszel_download_url }}/{{ beszel_version }}/{{ beszel_binary_name }}"
+    dest: "/tmp/{{ beszel_binary_name }}"
+    mode: '0644'
+  when: not beszel_binary.stat.exists
+  register: beszel_download
+
+- name: Extract beszel agent binary
+  ansible.builtin.command:
+    cmd: tar -xf /tmp/{{ beszel_binary_name }} -C {{ beszel_home_dir }}
+    creates: "{{ beszel_home_dir }}/beszel-agent"
+  when: beszel_download is changed or not beszel_binary.stat.exists
+  tags:
+    - skip_ansible_lint
+  notify: Restart beszel
+
+- name: Set ownership and permissions on beszel binary
+  ansible.builtin.file:
+    mode: '0755'
+  when: beszel_download is changed or not beszel_binary.stat.exists
+
+- name: Clean up downloaded tarball
+  ansible.builtin.file:
+    path: "/tmp/{{ beszel_binary_name }}"
+    state: absent
+  when: beszel_download is defined
+
+- name: Create beszel systemd service file
+  ansible.builtin.template:
+    src: beszel.service.j2
+    dest: /etc/systemd/system/beszel-agent.service
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - Reload systemd
+    - Restart beszel
+
+- name: Ensure beszel service is enabled and started
+  ansible.builtin.systemd:
+    name: beszel-agent
+    enabled: true
+    state: started
+    daemon_reload: true
