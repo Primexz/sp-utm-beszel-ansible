@@ -31,6 +31,8 @@ These variables have default values and can be customized as needed:
 | `beszel_version` | `"v0.16.0"` | string | Version of Beszel agent to install. Should match a valid GitHub release tag. |
 | `beszel_extra_filesystems` | `""` | string | Additional filesystems to monitor (e.g., `"sdb"` for a second disk). Leave empty to monitor only the root filesystem. |
 | `beszel_root_filesystem` | `""` | string | Specify the root filesystem device if auto-detection fails. Usually not needed. |
+| `beszel_primary_temp_sensor` | `""` | string | Specify the primary temperature sensor to monitor. If not set, Beszel will auto-detect the sensor. |
+| `beszel_temp_sensors` | `""` | string | Whitelist or blacklist temperature sensors for monitoring. Use comma-separated values to specify which sensors to include or exclude. |
 | `beszel_home_dir` | `"/root/beszel-agent"` | string | Directory where the Beszel agent binary will be installed. |
 | `beszel_download_url` | `"https://github.com/henrygd/beszel/releases/download"` | string | Base URL for downloading Beszel releases. |
 | `beszel_binary_name` | `"beszel-agent_linux_amd64.tar.gz"` | string | Name of the binary archive to download. |

@@ -4,6 +4,8 @@ beszel_port: 0
 beszel_key: ""  # SSH public key for authentication
 beszel_extra_filesystems: ""  # Optional extra filesystems to monitor (e.g., "sdb")
 beszel_root_filesystem: ""
+beszel_primary_temp_sensor: ""
+beszel_temp_sensors: ""
 beszel_home_dir: "/root/beszel-agent"
 
 # Download URLs

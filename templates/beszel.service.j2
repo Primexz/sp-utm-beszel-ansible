@@ -8,11 +8,15 @@ Environment="PORT={{ beszel_port }}"
 Environment="KEY={{ beszel_key }}"
 {% if beszel_extra_filesystems %}
 Environment="EXTRA_FILESYSTEMS={{ beszel_extra_filesystems }}"
-{% else %}
-# Environment="EXTRA_FILESYSTEMS=sdb"
 {% endif %}
 {% if beszel_root_filesystem %}
 Environment="FILESYSTEM={{ beszel_root_filesystem }}"
+{% endif %}
+{% if beszel_primary_temp_sensor %}
+Environment="PRIMARY_SENSOR={{ beszel_primary_temp_sensor }}"
+{% endif %}
+{% if beszel_temp_sensors %}
+Environment="SENSORS={{ beszel_temp_sensors }}"
 {% endif %}
 ExecStart={{ beszel_home_dir }}/beszel-agent
 Restart=on-failure
