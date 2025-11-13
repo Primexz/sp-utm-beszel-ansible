@@ -20,6 +20,7 @@ These variables must be set for the role to function properly:
 | Variable | Type | Description |
 |----------|------|-------------|
 | `beszel_key` | string | SSH public key for authentication between the agent and Beszel server. This is displayed in the Beszel web interface when adding a new system. |
+| `beszel_token` | string | Token for authentication between the agent and Beszel server. This is displayed in the Beszel web interface when adding a new system. |
 | `beszel_port` | integer | Port number for the agent to listen on. This is displayed in the Beszel web interface when adding a new system. |
 
 ### Optional Variables
@@ -51,6 +52,7 @@ This role has no external dependencies.
     - role: Primexz.sp_utm_beszel
       vars:
         beszel_key: "ssh-ed25519 EXAMPLE123..."
+        beszel_token: "example-token-123"
         beszel_port: 12345
 ```
 

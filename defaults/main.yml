@@ -2,6 +2,7 @@
 beszel_version: "v0.16.0"
 beszel_port: 0
 beszel_key: ""  # SSH public key for authentication
+beszel_token: ""  # Token for authentication
 beszel_extra_filesystems: ""  # Optional extra filesystems to monitor (e.g., "sdb")
 beszel_root_filesystem: ""
 beszel_primary_temp_sensor: ""

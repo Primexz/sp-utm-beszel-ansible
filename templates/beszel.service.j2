@@ -6,6 +6,7 @@ After=network-online.target
 [Service]
 Environment="PORT={{ beszel_port }}"
 Environment="KEY={{ beszel_key }}"
+Environment="TOKEN={{ beszel_token }}"
 {% if beszel_extra_filesystems %}
 Environment="EXTRA_FILESYSTEMS={{ beszel_extra_filesystems }}"
 {% endif %}

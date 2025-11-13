@@ -4,10 +4,16 @@
     msg: "beszel_key must be set for the agent to authenticate with the server"
   when: beszel_key == "" or beszel_key is not defined
 
+- name: Validate beszel token is set
+  ansible.builtin.fail:
+    msg: "beszel_token must be set for the agent to authenticate with the server"
+  when: beszel_token == "" or beszel_token is not defined
+
 - name: Validate beszel port is set
   ansible.builtin.fail:
     msg: "beszel_port must be set for the agent to listen on"
   when: beszel_port == 0 or beszel_port is not defined
+
 
 - name: Create beszel directories
   ansible.builtin.file:
