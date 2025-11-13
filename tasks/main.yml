@@ -11,11 +11,9 @@
 
 - name: Create beszel directories
   ansible.builtin.file:
-    path: "{{ item }}"
+    path: "{{ beszel_home_dir }}"
     state: directory
     mode: '0755'
-  loop:
-    - "{{ beszel_home_dir }}"
   when: not ansible_check_mode
 
 - name: Check if beszel binary exists
