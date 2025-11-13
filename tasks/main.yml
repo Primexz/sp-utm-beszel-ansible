@@ -39,7 +39,7 @@
     - skip_ansible_lint
   notify: Restart beszel
 
-- name: Set ownership and permissions on beszel binary
+- name: Set permissions on beszel binary
   ansible.builtin.file:
     mode: '0755'
   when: beszel_download is changed or not beszel_binary.stat.exists
