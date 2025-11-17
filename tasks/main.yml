@@ -33,13 +33,12 @@
     url: "{{ beszel_download_url }}/{{ beszel_version }}/{{ beszel_binary_name }}"
     dest: "/tmp/{{ beszel_binary_name }}"
     mode: '0644'
-  when: not beszel_binary.stat.exists
+    force: true
   register: beszel_download
 
 - name: Extract beszel agent binary
   ansible.builtin.command:
     cmd: tar -xf /tmp/{{ beszel_binary_name }} -C {{ beszel_home_dir }}
-    creates: "{{ beszel_home_dir }}/beszel-agent"
   when: beszel_download is changed or not beszel_binary.stat.exists
   tags:
     - skip_ansible_lint
@@ -47,8 +46,10 @@
 
 - name: Set permissions on beszel binary
   ansible.builtin.file:
+    path: "{{ beszel_home_dir }}/beszel-agent"
     mode: '0755'
   when: beszel_download is changed or not beszel_binary.stat.exists
+  notify: Restart beszel
 
 - name: Clean up downloaded tarball
   ansible.builtin.file:
