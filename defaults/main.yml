@@ -1,5 +1,5 @@
 ---
-beszel_version: "v0.16.0"
+beszel_version: "v0.16.1"
 beszel_port: 0
 beszel_key: ""  # SSH public key for authentication
 beszel_token: ""  # Token for authentication
