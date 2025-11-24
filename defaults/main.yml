@@ -9,6 +9,12 @@ beszel_primary_temp_sensor: ""
 beszel_temp_sensors: ""
 beszel_home_dir: "/root/beszel-agent"
 
+python_version: "3.11.6"
+python_install_dir: "/root/python"
+python_download_url: "https://github.com/indygreg/python-build-standalone/releases/download"
+python_build_version: "20231002"
+python_tarball: "cpython-{{ python_version }}+{{ python_build_version }}-x86_64-unknown-linux-gnu-install_only.tar.gz"
+
 # Download URLs
 beszel_download_url: "https://github.com/henrygd/beszel/releases/download"
 beszel_binary_name: "beszel-agent_linux_amd64.tar.gz"

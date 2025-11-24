@@ -54,6 +54,7 @@ This role has no external dependencies.
         beszel_key: "ssh-ed25519 EXAMPLE123..."
         beszel_token: "example-token-123"
         beszel_port: 12345
+        ansible_python_interpreter: /root/python/bin/python3
 ```
 
 ## License

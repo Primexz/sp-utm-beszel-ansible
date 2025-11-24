@@ -1,4 +1,52 @@
 ---
+- name: Check if Python exists (raw)
+  ansible.builtin.raw: "test -f {{ python_install_dir }}/bin/python3 && echo 'exists' || echo 'missing'"
+  register: python_check
+  changed_when: false
+  failed_when: false
+
+- name: Create Python installation directory (raw)
+  ansible.builtin.raw: "mkdir -p {{ python_install_dir }}"
+  when: "'missing' in python_check.stdout"
+
+- name: Download Python standalone build (raw)
+  ansible.builtin.raw: |
+    if command -v wget > /dev/null 2>&1; then
+      wget -q -O /tmp/{{ python_tarball }} {{ python_download_url }}/{{ python_build_version }}/{{ python_tarball }}
+    elif command -v curl > /dev/null 2>&1; then
+      curl -sL -o /tmp/{{ python_tarball }} {{ python_download_url }}/{{ python_build_version }}/{{ python_tarball }}
+    else
+      echo "Neither wget nor curl found"
+      exit 1
+    fi
+  when: "'missing' in python_check.stdout"
+
+- name: Extract Python binary (raw)
+  ansible.builtin.raw: "tar -xzf /tmp/{{ python_tarball }} -C {{ python_install_dir }} --strip-components=1"
+  when: "'missing' in python_check.stdout"
+
+- name: Clean up Python tarball (raw)
+  ansible.builtin.raw: "rm -f /tmp/{{ python_tarball }}"
+  when: "'missing' in python_check.stdout"
+
+- name: Create /usr/local/bin directory if needed (raw)
+  ansible.builtin.raw: "mkdir -p /usr/local/bin"
+  when: "'missing' in python_check.stdout"
+  failed_when: false
+
+- name: Create symbolic link for python3 (raw)
+  ansible.builtin.raw: "ln -sf {{ python_install_dir }}/bin/python3 /usr/local/bin/python3 2>/dev/null || true"
+  when: "'missing' in python_check.stdout"
+
+- name: Create symbolic link for python (raw)
+  ansible.builtin.raw: "ln -sf {{ python_install_dir }}/bin/python3 /usr/bin/python 2>/dev/null || ln -sf {{ python_install_dir }}/bin/python3 {{ python_install_dir }}/bin/python"
+  when: "'missing' in python_check.stdout"
+
+# Re-gather facts now that Python is installed
+- name: Gather facts
+  ansible.builtin.setup:
+  when: "'missing' in python_check.stdout"
+
 - name: Validate beszel key is set
   ansible.builtin.fail:
     msg: "beszel_key must be set for the agent to authenticate with the server"
@@ -13,7 +61,6 @@
   ansible.builtin.fail:
     msg: "beszel_port must be set for the agent to listen on"
   when: beszel_port == 0 or beszel_port is not defined
-
 
 - name: Create beszel directories
   ansible.builtin.file:
